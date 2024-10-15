@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+def kmeans(X,k,max_iters=100):
+
+  centroid=X[np.random.choice(X.shape[0],k,replace=False)]
+
+  for _ in range(max_iters):
+    distances=np.sqrt(((X-centroid[:,np.newaxis])**2).sum(axis=2))
+    labels=np.argmin(distances,axis=0)
+
+    new_centroids = np.array([X[labels==i].mean(axis=0) for i in range(k)])
+
+    if np.all(centroid==new_centroids):
+      break
+    centroid=new_centroids
+  return labels,centroid
+
+
+iris = load_iris()
+X = iris.data
+
+labels,centroids=kmeans(X,3)
+
+
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', s=50, alpha=0.7)
+plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='x', s=200, label='Centroids')
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Sepal Width (cm)')
+plt.title('K-Means Clustering of Iris Dataset')
+plt.legend()
+plt.show()
+
