@@ -1,0 +1,20 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+# Generate random data for the example
+np.random.seed(0)
+x = np.random.rand(100) * 10
+y = 2 * x + 1 + np.random.randn(100) * 2  # Linear relationship with noise
+
+# Create a DataFrame
+data = pd.DataFrame({'x': x, 'y': y})
+
+# Create scatterplot with regression line using Seaborn
+sns.set(style="whitegrid")
+sns.lmplot(x='x', y='y', data=data)
+
+# Show the plot
+plt.title("Scatterplot with Linear Regression Line")
+plt.show()
